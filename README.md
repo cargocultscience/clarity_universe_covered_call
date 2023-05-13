@@ -1,4 +1,141 @@
-Created for 2022 Clarity Universe Hackathon https://devpost.com/software/stacks-covered-calls
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+<h1>Latest</h1>
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+1. Run a few tests
+<h6>clarinet test tests/sizeable-bitcoin-call_test.ts</h6>
+
+2. To do list
+
+- do some test use cases
+- ask someone like Cargo if they can have a look
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+<h1>A simple exercise for beginners</h1>
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+If you are new to Clarity and would like to test the contracts, you can run "clarinet
+console" from the contracts folder and perform the following steps:
+
+1. Mint yourself 3 million satoshis (sats) from sbtc using the command:
+<h6>(contract-call? .sbtc mint u3000000 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)</h6>
+
+2. Mint a Bitcoin call, which is represented by a non fungible token and a map. Your 3
+million sats will be transferred to the contract, but you will receive the token "u1
+bitcoin-call" using the command (strike-price = 1000 stx):
+<h6>(contract-call? .bitcoin-call mint 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u3000000 u1000000000)</h6>
+
+3. Get the asset maps using the command:
+<h6>::get_assets_maps</h6>
+
+4. Transfer the Bitcoin call token "u1" to a new owner, identified by their principal
+ID 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the
+command:
+<h6>(contract-call? .bitcoin-call transfer u1 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+
+5. Change the transaction sender to
+'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the command:
+<h6>::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG</h6>
+
+6. Advance the chain tip by 5 blocks.
+
+7. Exercise the option and verify that the 3 million sats were received by the new owner using the command:
+<h6>(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.bitcoin-call exercise 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u1)</h6>
+
+![sizeable](https://user-images.githubusercontent.com/6700158/233876845-ec3808bd-559e-46f7-8c04-a6d0922270d9.png)
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+<h1>Exercise #2 for beginners</h1>
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+So now, we want to mint 6 Bitcoin calls by sending 18 million sats to the contract "sizeable-bitcoin-call.clar" and we want to be issued 6 bitcoin-calls, but the 3 first tokens have a strike of 1000 STX whereas the 3 following ones have a strike of 1230 STX.
+
+0. Run "clarinet console"
+   console" from the contracts folder and perform the following steps:
+
+1. Mint yourself 18 million satoshis (sats) from sbtc using the command:
+<h6>(contract-call? .sbtc mint u19000000 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)</h6>
+
+2. Mint yourself 3 Bitcoin-calls of a total of 9 million satoshis (sats) - 3 million each - at a strike of 1000 STX from using the command:
+<h6>(contract-call? .sizeable-bitcoin-call mint 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u9000000 u1000000000)</h6>
+
+3. Mint yourself 3 Bitcoin-calls of a total of 9 million satoshis (sats) - 3 million sats each - at a strike of 1230 STX from using the command:
+<h6>(contract-call? .sizeable-bitcoin-call mint 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u9000000 u1230000000)</h6>
+
+4. Get the asset maps using the command:
+<h6>::get_assets_maps</h6>
+
+5. Transfer the Bitcoin call token "u1" to a new owner, identified by their principal ID 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the command:
+<h6>(contract-call? .sizeable-bitcoin-call transfer u1 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+
+6. Change the transaction sender to 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the command:
+<h6>::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG</h6>
+
+7. Advance the chain tip by 5 blocks.
+
+8. Exercise the option and verify that the 3 million sats were received by the new owner using the command:
+<h6>(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sizeable-bitcoin-call exercise 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u1)</h6>
+
+![sizeable folded](https://user-images.githubusercontent.com/6700158/234094834-d5aab652-20e3-43a6-b6b6-9bf9ea3e8d85.png)
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+<h1>Now let's exercise all of my calls in one go?</h1>
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+0. Run "clarinet console"
+   console" from the contracts folder and perform the following steps:
+
+1. Mint yourself 18 million satoshis (sats) from sbtc using the command:
+<h6>(contract-call? .sbtc mint u19000000 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)</h6>
+
+2. Mint yourself 3 Bitcoin-calls of a total of 9 million satoshis (sats) - 3 million each - at a strike of 1000 STX from using the command:
+<h6>(contract-call? .sizeable-bitcoin-call mint 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc u15000000 u1000000000)</h6>
+
+3. Transfer the Bitcoin call tokens to a new owner, identified by their principal ID 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the command:
+<h6>(contract-call? .sizeable-bitcoin-call transfer u1 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+<h6>(contract-call? .sizeable-bitcoin-call transfer u2 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+<h6>(contract-call? .sizeable-bitcoin-call transfer u3 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+
+4. Look up the list of exerciseable bitcoin calls you have
+
+<h6>(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sizeable-bitcoin-call get-exerciser-calls 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)</h6>
+
+<h6>(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sizeable-bitcoin-call get-exerciser-calls 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)</h6>
+
+6. Get the asset maps using the command:
+<h6>::get_assets_maps</h6>
+
+7. Change the transaction sender to 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG using the command:
+<h6>::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG</h6>
+
+8. Exercise them all:
+
+<h6>(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sizeable-bitcoin-call exercise-all-of-my-exerciser-calls 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sbtc)</h6>
+
+9. Get the asset maps using the command:
+<h6>::get_assets_maps</h6>
+![image](https://user-images.githubusercontent.com/6700158/235331168-02068c05-16fd-4fa3-8ab5-89fe15d89d3f.png)
+
+![image](https://user-images.githubusercontent.com/6700158/235331152-99766516-b542-4375-bd68-5c960f80edac.png)
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+- Call option Bitcoin, Bitcoin is collateralized
+- Put option Bitcoin, the other asset is collateralized (stx / usda)
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
+
+Forked by Rafa from CargoCult's POC
+
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > Created for 2022 Clarity Universe Hackathon https://devpost.com/software/stacks-covered-calls
 
 ![Options involve price and time!](https://user-images.githubusercontent.com/28972498/158882895-421eaad3-5ad6-42e5-96a4-faf7111292db.jpg)
 
